@@ -12,28 +12,10 @@ export class App extends Component {
   bad: 0
     }
 
-    handleClickGood = (e) => {
+    handleClickOptions = (option) => {
         this.setState(pState => {
             return {
-                good: pState.good + 1
-             
-            };
-        })   
-    }
-
-    handleClickNeutral = (e) => {
-        this.setState(pState => {
-            return {
-                neutral: pState.neutral + 1
-             
-            };
-        })   
-    }
-
-     handleClickBad = (e) => {
-        this.setState(pState => {
-            return {
-                bad: pState.bad + 1
+               [option] : pState[option] + 1
              
             };
         })   
@@ -52,32 +34,18 @@ export class App extends Component {
       const { good, neutral, bad } = this.state;
       const getTotalFeedBack = this.countTotalFeedback(this.state);
       const getPositiveFeedbackPercentage = this.countPositiveFeedbackPercentage(this.state, getTotalFeedBack)
-      const onLeaveFeedback = {
-      handleClickGood: this.handleClickGood,
-      handleClickNeutral: this.handleClickNeutral,
-      handleClickBad: this.handleClickBad
-      }
-
-      const options = {
-        good: 'good',
-        neutral: 'neutral',
-        bad: 'bad'
-      }
       return ( 
           <>
         <Section  title="Please leave feedback">
-            <FeedbackOptions options={options} onLeaveFeedback={onLeaveFeedback} />
+            <FeedbackOptions options={Object.keys(this.state)} onLeaveFeedback={this.handleClickOptions} />
         </Section>
          
           <Section title="Statistics">
-            {good || neutral || bad ?
+            {getTotalFeedBack ?
               <Statistics good={good} neutral={neutral} bad={bad} total={getTotalFeedBack} positivePercentage={getPositiveFeedbackPercentage} />
               : <Notification message="There is no feedback" />}
           </Section>
           <RootStyle></RootStyle>
-
-
-
           </>
            
           
