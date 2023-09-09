@@ -17,24 +17,30 @@ export const App = () => {
   
 
   const handleClickOptions = (e) => {
-    if (e.target.name === 'good') {
-      setGood(prevGood => (prevGood + 1))
-    } else if ((e.target.name === 'neutral')) {
-      setNeutral(prevGood => (prevGood + 1))
-    } else if ((e.target.name === 'bad')) {
-      setBad(prevGood => (prevGood + 1))
+    switch (e.target.name) {
+      case 'good':
+      return setGood(good + 1)
+      
+      case 'neutral':
+       return setNeutral(neutral + 1)
+       
+      case 'bad':
+       return setBad(bad + 1)
+     
+      default:
+       
     }
   
   }  
   
   const getTotalFeedBack = () => {
-    const total = good + neutral + bad
-    return total
+    const totalFeedback = good + neutral + bad
+    const positiveFeedbackPercentage = ((good / totalFeedback) * 100) ^ 0;
+    return { totalFeedback, positiveFeedbackPercentage}
   }
+  
+  
 
-  const getPositiveFeedbackPercentage = () => {
-        return ((good / (good + neutral + bad)) * 100) ^ 0;
-  }
   
       return ( 
           <>
@@ -43,7 +49,7 @@ export const App = () => {
         </Section>
           <Section title="Statistics">
             {getTotalFeedBack ?
-              <Statistics good={good} neutral={neutral} bad={bad} total={getTotalFeedBack} positivePercentage={getPositiveFeedbackPercentage} />
+              <Statistics good={good} neutral={neutral} bad={bad} total={getTotalFeedBack()}  />
               : <Notification message="There is no feedback" />}
           </Section>
           <RootStyle></RootStyle>
